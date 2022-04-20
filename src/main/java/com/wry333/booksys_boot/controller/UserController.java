@@ -27,12 +27,14 @@ public class UserController {
         return "register";
     }
 
+
+
     @RequestMapping("user_login")
     public ModelAndView user_login(User user, ModelAndView mav, HttpSession session){
         User user_login = userService.login(user);
         if(user_login != null){
             session.setAttribute("user",user_login);
-            mav.setViewName("user_index");
+            mav.setViewName("forward:/user_admin");
         }
         else {
             mav.setViewName("login");
@@ -54,4 +56,11 @@ public class UserController {
         return mav;
     }
 
+
+    @RequestMapping("/user_admin")
+    public ModelAndView user_admin(ModelAndView mav){
+        mav.setViewName("user_index");
+
+        return mav;
+    }
 }
