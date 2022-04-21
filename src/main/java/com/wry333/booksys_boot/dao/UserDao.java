@@ -1,7 +1,7 @@
 package com.wry333.booksys_boot.dao;
 
 
-import com.wry333.booksys_boot.domian.User;
+import com.wry333.booksys_boot.domain.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

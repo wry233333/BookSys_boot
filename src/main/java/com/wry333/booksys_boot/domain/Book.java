@@ -1,4 +1,4 @@
-package com.wry333.booksys_boot.domian;
+package com.wry333.booksys_boot.domain;
 
 
 import lombok.Data;

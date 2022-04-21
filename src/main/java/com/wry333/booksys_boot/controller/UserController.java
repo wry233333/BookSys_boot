@@ -1,14 +1,17 @@
 package com.wry333.booksys_boot.controller;
 
 
-import com.wry333.booksys_boot.domian.User;
+import com.wry333.booksys_boot.domain.Record;
+import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -58,9 +61,12 @@ public class UserController {
 
 
     @RequestMapping("/user_admin")
-    public ModelAndView user_admin(ModelAndView mav){
+    public ModelAndView user_admin(ModelAndView mav, @SessionAttribute User user) throws Exception {
         mav.setViewName("user_index");
-
+        List<Integer> list = userService.get_index_data(user);
+        List<Record> records = userService.getAllRecord(user);
+        mav.addObject("num", list);
+        mav.addObject("records", records);
         return mav;
     }
 }
