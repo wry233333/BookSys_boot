@@ -4,9 +4,11 @@ package com.wry333.booksys_boot.controller;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,4 +80,30 @@ public class UserController {
         session.removeAttribute("user");
         return "redirect:index.html";
     }
+
+    @RequestMapping("/test")
+    public String test() {
+        return "whitepage";
+    }
+
+
+    @RequestMapping("/reset")
+    public String reset() {
+        return "resetPassword";
+    }
+
+    @RequestMapping("/resetPwd")
+    public ModelAndView reset_pwd(@RequestParam("password") String pwd, @RequestParam("new") String new_pwd, HttpSession session, ModelAndView mav) {
+        User user = (User) session.getAttribute("user");
+        if (user.getPassword().equals(pwd)) {
+            userService.resetPwd(user, new_pwd);
+            session.removeAttribute("user");
+            mav.setViewName("redirect:sign_in");
+        } else {
+            mav.setViewName("resetPassword");
+            mav.addObject("msg", "原密码错误，请重试");
+        }
+        return mav;
+    }
+
 }

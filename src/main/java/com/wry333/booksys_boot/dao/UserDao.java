@@ -2,9 +2,7 @@ package com.wry333.booksys_boot.dao;
 
 
 import com.wry333.booksys_boot.domain.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserDao {
@@ -18,4 +16,8 @@ public interface UserDao {
 
     @Insert("insert into tbl_user values (null,#{username},#{password},#{email})")
     void saveUser(User user);
+
+
+    @Update("update tbl_user set password = #{new_pwd} where id = #{user.id}")
+    void resetPwd(User user, @Param("new_pwd") String new_pwd);
 }

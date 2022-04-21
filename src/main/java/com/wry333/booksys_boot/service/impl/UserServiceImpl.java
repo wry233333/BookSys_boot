@@ -79,4 +79,10 @@ public class UserServiceImpl implements UserService {
         }
         return list;
     }
+
+    @Override
+    public boolean resetPwd(User user, String new_pwd) {
+        userDao.resetPwd(user, new_pwd);
+        return true;
+    }
 }

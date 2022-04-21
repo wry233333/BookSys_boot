@@ -14,4 +14,6 @@ public interface UserService {
     List<Integer> get_index_data(User user) throws Exception;
 
     List<Record> getAllRecord(User user);
+
+    boolean resetPwd(User user, String new_pwd);
 }

@@ -38,4 +38,11 @@ class BookSysBootApplicationTests {
         }
     }
 
+    @Test
+    void test() {
+        User user = new User();
+        user.setId(1);
+        userDao.resetPwd(user, "12345");
+    }
+
 }
