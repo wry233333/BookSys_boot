@@ -21,13 +21,15 @@ public class UserController {
 
 
     @RequestMapping("/sign_in")
-    public String sign_in(){
-        return "login";
+    public ModelAndView sign_in(ModelAndView mav) {
+        mav.setViewName("login");
+        return mav;
     }
 
     @RequestMapping("/sign_up")
-    public String sign_up(){
-        return "register";
+    public ModelAndView sign_up(ModelAndView mav) {
+        mav.setViewName("register");
+        return mav;
     }
 
 
@@ -50,8 +52,8 @@ public class UserController {
     public ModelAndView user_register(User user,ModelAndView mav){
         mav.setViewName("register");
         if(userService.register(user)){
-            mav.setViewName("login");
-            mav.addObject("log_msg","注册成功，请登录");
+            mav.setViewName("forward:login");
+            mav.addObject("log_msg", "注册成功，请登录");
         }
         else{
             mav.addObject("reg_msg","邮箱地址重复，请重试");
@@ -68,5 +70,12 @@ public class UserController {
         mav.addObject("num", list);
         mav.addObject("records", records);
         return mav;
+    }
+
+
+    @RequestMapping("log_out")
+    public String log_out(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:index.html";
     }
 }
