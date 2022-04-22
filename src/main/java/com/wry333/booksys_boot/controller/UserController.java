@@ -106,4 +106,26 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping("/rename")
+    public String rename() {
+        return "rename";
+    }
+
+    @RequestMapping("/user_rename")
+    public ModelAndView user_rename(ModelAndView mav, @RequestParam String username, @SessionAttribute User user, HttpSession session) {
+        mav.setViewName("rename");
+        user.setUsername(username);
+        session.setAttribute("user", user);
+        userService.rename(user, username);
+        mav.addObject("msg", "修改成功");
+        return mav;
+    }
+
+
+    @RequestMapping("/admin")
+    public String admin() {
+        return "/admin/admin_index";
+    }
+
+
 }

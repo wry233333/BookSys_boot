@@ -16,4 +16,6 @@ public interface UserService {
     List<Record> getAllRecord(User user);
 
     boolean resetPwd(User user, String new_pwd);
+
+    void rename(User user, String username);
 }

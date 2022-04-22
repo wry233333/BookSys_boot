@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService {
         userDao.resetPwd(user, new_pwd);
         return true;
     }
+
+    @Override
+    public void rename(User user, String username) {
+        userDao.rename(user.getId(), username);
+    }
 }

@@ -20,4 +20,7 @@ public interface UserDao {
 
     @Update("update tbl_user set password = #{new_pwd} where id = #{user.id}")
     void resetPwd(User user, @Param("new_pwd") String new_pwd);
+
+    @Update("update tbl_user set username = #{username} where id = #{id}")
+    void rename(long id, String username);
 }

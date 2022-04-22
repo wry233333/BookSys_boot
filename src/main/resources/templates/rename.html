@@ -291,7 +291,7 @@
 
 
                         <li id="admin-rename">
-                            <a href="/rename">
+                            <a href="all-admin-login.html">
                                 <i class="fa fa-circle-o"></i> 修改用户名
                             </a>
                         </li>
@@ -315,33 +315,38 @@
         <section class="content-header">
             <h1>
                 账户管理
-                <small>修改密码</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/user_admin"><i class="fa fa-dashboard"></i> 首页</a></li>
                 <li><a href="#">账户管理</a></li>
-                <li class="active">修改密码</li>
+                <li class="active">修改用户名</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
 
         <!-- 正文区域 -->
         <section class="content">
-            <form action="/resetPwd" method="post">
-                <div class="box-body">
-                    <div style="width: 430px">
-                        <input type="password" name="password" class="form-control" id="pwd1" placeholder="请输入原密码">
-                        <br>
-                        <input type="password" name="new" class="form-control" id="pwd2" placeholder="请输入新密码">
-                        <br>
-                        <button style="float: left" type="submit" class="btn btn-success">修改</button>
-                        <button style="float: right" type="reset" class="btn btn-warning">重置</button>
-                    </div>
-                    <div>
-                        <h4 align="center" style="color: red" th:text="${msg}"></h4>
-                    </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">修改用户名</h3>
                 </div>
-            </form>
+
+                <div class="box-body">
+                    <form action="/user_rename" method="post">
+                        <div class="form-group">
+                            <label>请输入新的用户名</label>
+                            <input name="username" type="text" class="form-control" placeholder="请输入 ...">
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">修改</button>
+                        <div>
+                            <h4 align="center" style="color: lawngreen" th:text="${msg}"></h4>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </section>
         <!-- 正文区域 /-->
 
