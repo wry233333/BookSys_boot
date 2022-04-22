@@ -19,6 +19,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    private SimpleDateFormat myFormat;
+
+    @Autowired
     UserDao userDao;
 
     @Autowired
@@ -45,7 +48,6 @@ public class UserServiceImpl implements UserService {
     public List<Integer> get_index_data(User user) throws Exception {
         int i = 0;
         List<Integer> object = new ArrayList<Integer>();
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date();
         int sum = recordDao.getNumByUid(user);
         object.add(sum);
@@ -89,5 +91,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public void rename(User user, String username) {
         userDao.rename(user.getId(), username);
+    }
+
+    @Override
+    public List<Integer> get_admin_data() throws Exception {
+        List<Integer> list = new ArrayList<Integer>();
+        int i = 0;
+        Date now = new Date();
+        list.add(bookDao.findAllBookNum());
+        list.add(userDao.findAllUserNum());
+        for (String s : recordDao.getAllReturnDate()) {
+            Date data = myFormat.parse(s);
+            if (now.compareTo(data) == 1) i++;
+        }
+        list.add(i);
+        int record = recordDao.getAllNum();
+        if (record != 0) {
+            float f = (float) i / (float) record;
+            f = f * 100;
+            list.add((int) f);
+        } else {
+            list.add(0);
+        }
+        return list;
     }
 }

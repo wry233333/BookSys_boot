@@ -26,4 +26,8 @@ public interface UserDao {
     //更新用户名
     @Update("update tbl_user set username = #{username} where id = #{id}")
     void rename(long id, String username);
+
+    //查询所有用户的数量
+    @Select("select count(*) from tbl_user")
+    Integer findAllUserNum();
 }

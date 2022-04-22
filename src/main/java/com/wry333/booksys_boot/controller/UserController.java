@@ -203,8 +203,12 @@ public class UserController {
      * @return
      */
     @RequestMapping("/admin")
-    public String admin() {
-        return "/admin/admin_index";
+    public ModelAndView admin(ModelAndView mav) throws Exception {
+        mav.setViewName("/admin/admin_index");
+        List list = userService.get_admin_data();
+        mav.addObject("list", list);
+
+        return mav;
     }
 
 

@@ -1,7 +1,9 @@
 package com.wry333.booksys_boot;
 
+import com.github.pagehelper.PageHelper;
 import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
+import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 class BookSysBootApplicationTests {
@@ -43,6 +46,16 @@ class BookSysBootApplicationTests {
         User user = new User();
         user.setId(1);
         userDao.resetPwd(user, "12345");
+    }
+
+
+    @Test
+    void test_page() {
+        PageHelper.startPage(1, 2);
+        User user = new User();
+        user.setId(1);
+        List<Record> list = recordDao.getRecordByUid(user);
+        System.out.println(list);
     }
 
 }
