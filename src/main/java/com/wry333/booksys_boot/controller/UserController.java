@@ -21,12 +21,24 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
+    /**
+     * 返回登录页面
+     *
+     * @param mav
+     * @return
+     */
     @RequestMapping("/sign_in")
     public ModelAndView sign_in(ModelAndView mav) {
         mav.setViewName("login");
         return mav;
     }
+
+    /**
+     * 返回注册页面
+     *
+     * @param mav
+     * @return
+     */
 
     @RequestMapping("/sign_up")
     public ModelAndView sign_up(ModelAndView mav) {
@@ -35,35 +47,56 @@ public class UserController {
     }
 
 
-
+    /**
+     * 处理用户登录
+     *
+     * @param user    自动注入需要的登录的用户对象数据
+     * @param mav
+     * @param session 用于保存用户的session
+     * @return
+     */
     @RequestMapping("user_login")
-    public ModelAndView user_login(User user, ModelAndView mav, HttpSession session){
+    public ModelAndView user_login(User user, ModelAndView mav, HttpSession session) {
         User user_login = userService.login(user);
-        if(user_login != null){
-            session.setAttribute("user",user_login);
+        if (user_login != null) {
+            session.setAttribute("user", user_login);
             mav.setViewName("forward:/user_admin");
-        }
-        else {
+        } else {
             mav.setViewName("login");
-            mav.addObject("log_msg","邮箱或密码错误");
+            mav.addObject("log_msg", "邮箱或密码错误");
         }
         return mav;
     }
+
+
+    /**
+     * 处理用户注册
+     *
+     * @param user 自动注入用户输入数据
+     * @param mav
+     * @return
+     */
 
     @RequestMapping("/register")
-    public ModelAndView user_register(User user,ModelAndView mav){
+    public ModelAndView user_register(User user, ModelAndView mav) {
         mav.setViewName("register");
-        if(userService.register(user)){
+        if (userService.register(user)) {
             mav.setViewName("forward:login");
             mav.addObject("log_msg", "注册成功，请登录");
-        }
-        else{
-            mav.addObject("reg_msg","邮箱地址重复，请重试");
+        } else {
+            mav.addObject("reg_msg", "邮箱地址重复，请重试");
         }
         return mav;
     }
 
-
+    /**
+     * 用户主页数据与视图结合的controller
+     *
+     * @param mav
+     * @param user 自动注入已经登录的用户
+     * @return
+     * @throws Exception 抛出时间处理异常
+     */
     @RequestMapping("/user_admin")
     public ModelAndView user_admin(ModelAndView mav, @SessionAttribute User user) throws Exception {
         mav.setViewName("user_index");
@@ -74,12 +107,24 @@ public class UserController {
         return mav;
     }
 
-
+    /**
+     * 处理用户退出登录
+     *
+     * @param session 用于删除用户数据的session
+     * @return
+     */
     @RequestMapping("log_out")
     public String log_out(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:index.html";
     }
+
+
+    /**
+     * 返回一个空页面，开发专用，部署时应删掉
+     *
+     * @return
+     */
 
     @RequestMapping("/test")
     public String test() {
@@ -87,10 +132,25 @@ public class UserController {
     }
 
 
+    /**
+     * 返回重置密码页面
+     *
+     * @return
+     */
     @RequestMapping("/reset")
     public String reset() {
         return "resetPassword";
     }
+
+    /**
+     * 处理用户重置密码请求
+     *
+     * @param pwd     用户输入的原密码
+     * @param new_pwd 新密码
+     * @param session 更新session
+     * @param mav
+     * @return
+     */
 
     @RequestMapping("/resetPwd")
     public ModelAndView reset_pwd(@RequestParam("password") String pwd, @RequestParam("new") String new_pwd, HttpSession session, ModelAndView mav) {
@@ -106,10 +166,26 @@ public class UserController {
         return mav;
     }
 
+
+    /**
+     * 返回修改用户名的页面
+     *
+     * @return
+     */
     @RequestMapping("/rename")
     public String rename() {
         return "rename";
     }
+
+    /**
+     * 处理用户重命名的请求
+     *
+     * @param mav
+     * @param username 新用户名
+     * @param user     session中用户对象
+     * @param session  更新session
+     * @return
+     */
 
     @RequestMapping("/user_rename")
     public ModelAndView user_rename(ModelAndView mav, @RequestParam String username, @SessionAttribute User user, HttpSession session) {
@@ -121,7 +197,11 @@ public class UserController {
         return mav;
     }
 
-
+    /**
+     * 返回管理员主页
+     *
+     * @return
+     */
     @RequestMapping("/admin")
     public String admin() {
         return "/admin/admin_index";

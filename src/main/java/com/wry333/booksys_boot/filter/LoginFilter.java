@@ -14,6 +14,16 @@ import java.io.IOException;
 @WebFilter("/*")
 public class LoginFilter implements Filter {
 
+
+    /**
+     * 用于登录验证
+     *
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
