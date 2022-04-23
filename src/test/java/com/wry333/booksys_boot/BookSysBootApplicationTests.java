@@ -55,7 +55,9 @@ class BookSysBootApplicationTests {
         User user = new User();
         user.setId(1);
         List<Record> list = recordDao.getRecordByUid(user);
-        System.out.println(list);
+        for (Record r : list) {
+            System.out.println(r);
+        }
     }
 
 }

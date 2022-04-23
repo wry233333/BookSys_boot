@@ -1,5 +1,6 @@
 package com.wry333.booksys_boot.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.wry333.booksys_boot.dao.BookDao;
 import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Record> getAllRecord(User user) {
+        PageHelper.startPage(1, 5);
         List<Record> list = recordDao.getRecordByUid(user);
         for (Record record : list) {
             if (record.getRel_date() == null) record.setStatue("未归还");
