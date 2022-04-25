@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"/>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn").bind("click", function () {
+                var $this = $(this);
+                $.getJSON("/rest_c", function (data) {
+                    $this.attr("disabled", "true");
+                    $.each(data, function (index, user) {
+                        $("ul").append("<li>" + user["username"] + "</li>");
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="test">
+    <div class="title">
+        <span class="fl">用户名</span>
+        <span class="fr"><input id="btn" type="button" value="加载"/></span>
+    </div>
+    <ul></ul>
+</div>
+
+</body>
+</html>

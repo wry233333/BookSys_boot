@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-//rust风格的控制器，可以配合axios和jquery实现前后端分离
+//rust风格的控制器，可以配合axios或者jquery实现前后端分离
 //此为测试接口，返回一个名为test的用户对象
 @RestController
 @RequestMapping("/rest_c")
