@@ -4,6 +4,8 @@ package com.wry333.booksys_boot.dao;
 import com.wry333.booksys_boot.domain.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserDao {
 
@@ -30,4 +32,8 @@ public interface UserDao {
     //查询所有用户的数量
     @Select("select count(*) from tbl_user")
     Integer findAllUserNum();
+
+
+    @Select("SELECT * FROM tbl_user")
+    List<User> findAllUsers();
 }

@@ -26,4 +26,6 @@ public interface UserService {
     void rename(User user, String username);
 
     List<Integer> get_admin_data() throws Exception;
+
+    List<User> getAllUser();
 }
