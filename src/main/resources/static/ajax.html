@@ -29,11 +29,14 @@
     new Vue({
         el: '#app',
         data: {
+            i: 1,
             msg: {}
         },
         methods: {
             clickMe: function () {
                 var obj = this;
+                var b = '/admin/user/' + (++obj.i);
+                console.log(b);
                 axios.get('/admin/user')
                     .then(function (response) {
                         let a = response.data;

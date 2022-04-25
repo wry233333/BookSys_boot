@@ -5,6 +5,7 @@ import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
+import com.wry333.booksys_boot.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,9 @@ class BookSysBootApplicationTests {
 
     @Autowired
     RecordDao recordDao;
+
+    @Autowired
+    UserService userService;
 
     //@Test
     void contextLoads() {
@@ -58,6 +62,12 @@ class BookSysBootApplicationTests {
         for (Record r : list) {
             System.out.println(r);
         }
+    }
+
+    @Test
+    void test_page2() {
+        List<User> user = userService.getAllUser(Integer.parseInt("1"));
+        System.out.println(user);
     }
 
 }

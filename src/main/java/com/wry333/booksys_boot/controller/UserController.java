@@ -211,5 +211,8 @@ public class UserController {
         return mav;
     }
 
-
+    @RequestMapping("/edit_user")
+    public String edit_user() {
+        return "/admin/admin_user";
+    }
 }

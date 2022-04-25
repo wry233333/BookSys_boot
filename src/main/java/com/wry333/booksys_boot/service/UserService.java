@@ -25,7 +25,11 @@ public interface UserService {
     //重置用户名称
     void rename(User user, String username);
 
+
+    //获得管理员界面数据
     List<Integer> get_admin_data() throws Exception;
 
-    List<User> getAllUser();
+
+    //获得所有用户
+    List<User> getAllUser(int i);
 }

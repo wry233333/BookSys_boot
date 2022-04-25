@@ -39,4 +39,8 @@ public interface RecordDao {
     //获得所有借阅记录的数量(用于统计)
     @Select("select count(*) from tbl_list")
     int getAllNum();
+
+
+    @Select("select * from tbl_list")
+    List<Record> findAll();
 }

@@ -120,7 +120,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> getAllUser() {
+    public List<User> getAllUser(int i) {
+        PageHelper.startPage(i, 5);
         List<User> list = userDao.findAllUsers();
         return list;
     }

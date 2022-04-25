@@ -33,7 +33,11 @@ public interface UserDao {
     @Select("select count(*) from tbl_user")
     Integer findAllUserNum();
 
-
+    //查询所有用户
     @Select("SELECT * FROM tbl_user")
     List<User> findAllUsers();
+
+    //通过用户id查询用户
+    @Select("select username from tbl_user where id=#{id}")
+    String findUserById(long id);
 }

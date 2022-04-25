@@ -13,4 +13,5 @@ public class Record {
     private String rel_date;
     private String b_name;
     private String statue;
+    private String username;
 }
