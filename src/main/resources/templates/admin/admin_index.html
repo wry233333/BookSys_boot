@@ -492,6 +492,7 @@
         el: '#app',
         data: {
             i: 0,
+            max: 1,
             msg: {},
             list: {}
         },
@@ -502,14 +503,13 @@
         methods: {
             getUsers: function () {
                 var obj = this;
-                obj.i++;
+                if (obj.i < obj.max) obj.i++;
                 axios.get('/admin/user/page/' + (obj.i))
                     .then(function (response) {
-                        let a = response.data;
+                        let a = response.data.list;
                         obj.msg = a;
-                        if (a.length == 0) {
-                            obj.i--;
-                        }
+                        obj.max = response.data.pages;
+                        alert(obj.max);
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -536,7 +536,7 @@
                 }
                 axios.get('/admin/user/page/' + (obj.i))
                     .then(function (response) {
-                        let a = response.data;
+                        let a = response.data.list;
                         obj.msg = a;
                     })
                     .catch(function (error) {

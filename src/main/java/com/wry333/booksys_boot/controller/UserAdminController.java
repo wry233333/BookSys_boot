@@ -1,6 +1,7 @@
 package com.wry333.booksys_boot.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.AdminService;
@@ -20,18 +21,38 @@ public class UserAdminController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 首页用户分页显示功能
+     *
+     * @param page
+     * @return
+     */
+
     @GetMapping("/page/{page}")
     @ResponseBody
-    public List<User> getAllUser(@PathVariable String page) {
+    public PageInfo<User> getAllUser(@PathVariable String page) {
         List<User> list = userService.getAllUser(Integer.parseInt(page));
-        return list;
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 
+
+    /**
+     * 首页显示借阅记录
+     *
+     * @return
+     */
 
     @GetMapping("/list")
     @ResponseBody
     public List<Record> getAllRecord() {
         List<Record> list = adminService.findAllRecord();
         return list;
+    }
+
+
+    @DeleteMapping
+    public void deleteUser() {
+
     }
 }

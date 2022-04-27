@@ -104,6 +104,8 @@
     <link rel="stylesheet" href="../plugins/ionslider/ion.rangeSlider.skinNice.css">
     <link rel="stylesheet" href="../plugins/bootstrap-slider/slider.css">
     <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -293,77 +295,98 @@
 
         <!-- 正文区域 -->
         <section class="content">
-            <div class="box">
+            <div class="box" id="app">
                 <div class="box-header">
                     <h3 class="box-title">用户列表</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                        <div class="row">
-                            <div class="col-sm-6"></div>
-                            <div class="col-sm-6"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
-                                       aria-describedby="example2_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th>用户id</th>
-                                        <th>姓名</th>
-                                        <th>邮箱</th>
-                                        <th>密码</th>
-                                        <th>权限</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    <tr role="row" class="odd">
-                                        <td class="sorting_1">001</td>
-                                        <td>张三</td>
-                                        <td>123@qq.com</td>
-                                        <td>123</td>
-                                        <td>1</td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing
-                                    1 to 10 of 57 entries
-                                </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button previous disabled" id="example2_previous">
-                                            <a href="#" aria-controls="example2" data-dt-idx="0"
-                                               tabindex="0">Previous</a></li>
-                                        <li class="paginate_button active"><a href="#" aria-controls="example2"
-                                                                              data-dt-idx="1" tabindex="0">1</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example2"
-                                                                        data-dt-idx="2" tabindex="0">2</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example2"
-                                                                        data-dt-idx="3" tabindex="0">3</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example2"
-                                                                        data-dt-idx="4" tabindex="0">4</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example2"
-                                                                        data-dt-idx="5" tabindex="0">5</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example2"
-                                                                        data-dt-idx="6" tabindex="0">6</a></li>
-                                        <li class="paginate_button next" id="example2_next"><a href="#"
-                                                                                               aria-controls="example2"
-                                                                                               data-dt-idx="7"
-                                                                                               tabindex="0">Next</a>
-                                        </li>
-                                    </ul>
+                    <div class="table-box">
+                        <!--左侧工具栏-->
+                        <div class="pull-left">
+                            <div class="form-group form-inline">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" title="新建"><i
+                                            class="fa fa-file-o"></i> 新建用户
+                                    </button>
+                                    <button type="button" class="btn btn-default" title="删除" @click="delete_user()"><i
+                                            class="fa fa-trash-o"></i> 删除用户
+                                    </button>
+                                    <button type="button" class="btn btn-default" title="刷新" @click="getUsers()"><i
+                                            class="fa fa-refresh"></i> 刷新
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <!--左侧工具栏结束-->
+                        <!--右侧搜索框-->
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <input type="text" class="form-control input-sm" placeholder="搜索">
+                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <!--右侧搜索框结束-->
+                        <!--数据表格-->
+                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                           aria-describedby="example2_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th>选择</th>
+                                            <th>用户id</th>
+                                            <th>姓名</th>
+                                            <th>邮箱</th>
+                                            <th>密码</th>
+                                            <th align="center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr role="row" class="odd" v-for="(item) in list">
+                                            <td><input v-model="delete_id" v-bind:value="item.id" type="checkbox"
+                                                       style="zoom: 125%"></td>
+                                            <td class="sorting_1">{{item.id}}</td>
+                                            <td>{{item.username}}</td>
+                                            <td>{{item.email}}</td>
+                                            <td>{{item.password}}</td>
+                                            <td align="center"><a class="btn btn-info" href="#">操作</a></td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">展示
+                                        1 to {{ max }} of {{ num }} entries
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers">
+                                        <ul class="pagination">
+                                            <li v-bind:class="{disabled:!(data.hasPreviousPage)}"
+                                                class="paginate_button previous" @click="getPage(data.prePage)">
+                                                <a>上一页</a></li>
+                                            <li class="paginate_button" v-for="(i) in data.navigatepageNums"
+                                                v-bind:class="{active:(i==data.pageNum)}" @click="getPage(i)"><a>{{ i
+                                                }}</a></li>
+                                            <li v-bind:class="{disabled:!(data.hasNextPage)}"
+                                                class="paginate_button next" @click="getPage(data.nextPage)"><a>下一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--数据表格结束-->
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -384,7 +407,59 @@
     </footer>
     <!-- 底部导航 /-->
 </div>
-
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            i: 1,
+            max: 1,
+            num: 0,
+            data: {},
+            list: {},
+            delete_id: []
+        },
+        mounted: function () {
+            this.getUsers();
+        },
+        methods: {
+            getUsers: function () {
+                var obj = this;
+                axios.get('/admin/user/page/1')
+                    .then(function (response) {
+                        let a = response.data.list;
+                        obj.list = a;
+                        obj.max = response.data.pages;
+                        obj.num = response.data.total;
+                        obj.data = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getPage: function (i) {
+                var obj = this;
+                if (i != 0) {
+                    axios.get('/admin/user/page/' + i)
+                        .then(function (response) {
+                            let a = response.data.list;
+                            obj.list = a;
+                            obj.max = response.data.pages;
+                            obj.num = response.data.total;
+                            obj.data = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            },
+            delete_user: function () {
+                var obj = this;
+                alert(JSON.stringify(obj.delete_id));
+                axios.delete('')
+            }
+        }
+    });
+</script>
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
 <script>

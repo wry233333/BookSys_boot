@@ -1,5 +1,6 @@
 package com.wry333.booksys_boot.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
 import com.wry333.booksys_boot.domain.Record;
@@ -20,6 +21,7 @@ public class AdminServiceImpl implements AdminService {
     //主页显示借阅记录表
     @Override
     public List<Record> findAllRecord() {
+        PageHelper.startPage(1, 5);
         List<Record> list = recordDao.findAll();
         for (Record r : list) {
             if (r.getRel_date() == null) {
