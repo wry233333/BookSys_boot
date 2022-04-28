@@ -44,4 +44,10 @@ public interface UserService {
 
     //更新用户信息
     void updateUser(User user);
+
+    //发送邮件
+    String sendEmail(String email);
+
+    //找回密码
+    void finPwd(String email, String password);
 }

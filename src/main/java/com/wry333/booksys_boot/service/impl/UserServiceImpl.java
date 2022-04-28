@@ -7,13 +7,12 @@ import com.wry333.booksys_boot.dao.UserDao;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
+import com.wry333.booksys_boot.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -86,6 +85,8 @@ public class UserServiceImpl implements UserService {
             System.out.println(f);
             int j = (int) f;
             object.add(j);
+        } else {
+            object.add(0);
         }
         return object;
     }
@@ -216,5 +217,27 @@ public class UserServiceImpl implements UserService {
             userDao.saveUser(user);
         }
         userDao.updateUser(user);
+    }
+
+    @Override
+    public String sendEmail(String email) {
+        User user = new User();
+        user.setEmail(email);
+        User user1 = userDao.findByEmail(user);
+        if (user1 != null) {
+            Integer i = (int) ((Math.random() * 9 + 1) * 100000);
+            String nums = i.toString();
+            MailUtils.sendMail(email, "您的验证码是" + nums, "验证邮件");
+            return nums;
+        }
+        return null;
+    }
+
+    @Override
+    public void finPwd(String email, String password) {
+        User user = new User();
+        user.setEmail(email);
+        User user1 = userDao.findByEmail(user);
+        userDao.resetPwd(user1, password);
     }
 }

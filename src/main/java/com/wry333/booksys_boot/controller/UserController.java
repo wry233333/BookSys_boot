@@ -243,4 +243,23 @@ public class UserController {
         userService.updateUser(user);
         return "redirect:/edit_user";
     }
+
+
+    @RequestMapping("/findUserPwd")
+    public String findUserPwd() {
+        return "findPassword";
+    }
+
+    @RequestMapping("/changePwd")
+    public ModelAndView changePwd(ModelAndView mav, HttpSession session, String email, String code, String password) {
+        String code_S = (String) session.getAttribute("code");
+        if (code.equals(code_S)) {
+            userService.finPwd(email, password);
+            mav.setViewName("forward:/sign_in");
+        } else {
+            mav.setViewName("findPassword");
+            mav.addObject("msg", "修改失败");
+        }
+        return mav;
+    }
 }

@@ -71,4 +71,6 @@ public class UserAdminController {
         List<User> list = userService.searchUser((String) map.get("data"));
         return list;
     }
+
+
 }

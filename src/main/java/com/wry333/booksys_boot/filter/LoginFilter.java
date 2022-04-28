@@ -31,7 +31,9 @@ public class LoginFilter implements Filter {
         String uri = req.getRequestURI();
         if (uri.contains("/sign_in") || uri.contains("/user_login") || uri.contains("/sign_up")
                 || uri.contains("/register") || uri.contains("/plugins") ||
-                uri.contains("/index") || uri.contains("/img") || uri.contains("/css") || uri.equals("/") || uri.contains("/admin/user")) {
+                uri.contains("/index") || uri.contains("/img") || uri.contains("/css") || uri.equals("/") || uri.contains("/findUserPwd") || uri.contains("/findPwd")
+                || uri.contains("/changePwd")
+        ) {
             chain.doFilter(request, response);
         } else {
             User user = (User) req.getSession().getAttribute("user");
