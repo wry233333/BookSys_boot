@@ -7,6 +7,7 @@ import com.wry333.booksys_boot.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -219,5 +220,27 @@ public class UserController {
     @RequestMapping("/edit_user")
     public String edit_user() {
         return "/admin/admin_user";
+    }
+
+
+    /**
+     * 返回修改用户界面
+     */
+    @RequestMapping("/admin/adj_user/{_id}")
+    public ModelAndView adj_user(ModelAndView mav, @PathVariable String _id) {
+        long id = Long.parseLong(_id);
+        User user = new User();
+        if (id != -1) {
+            user = userService.getGetUser(id);
+        }
+        mav.setViewName("/admin/admin_userInfo");
+        mav.addObject("user", user);
+        return mav;
+    }
+
+    @RequestMapping("/admin/saveUserChange")
+    public String updateUser(User user) {
+        userService.updateUser(user);
+        return "redirect:/edit_user";
     }
 }

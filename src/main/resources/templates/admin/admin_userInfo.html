@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加/修改用户</title>
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.min.css">
+</head>
+<body style="background-color: #00c0ef">
+<div style="width: 60%; float: left;margin-left: 20%;margin-top: 5%;border: 2px ;border-radius: 20px;background-color: white">
+    <div style="margin: 4%;">
+        <form action="/admin/saveUserChange" method="post">
+            <h2>修改用户</h2>
+            <br/>
+            <div class="form-group">
+                <label>用户id:</label><br/>
+                <input type="text" class="form-control" readonly="readonly" name="id" th:attr="value=${user.id}">
+            </div>
+            <div class="form-group">
+                <label for="username">用户名:</label>
+                <input type="text" class="form-control" th:attr="value=${user.username}" name="username" id="username"
+                       placeholder="输入用户名">
+            </div>
+            <div class="form-group">
+                <label for="pwd">密码</label>
+                <input type="text" class="form-control" th:attr="value=${user.password}" name="password" id="pwd"
+                       placeholder="输入密码">
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="text" class="form-control" th:attr="value=${user.email}" name="email" id="email"
+                       placeholder="输入邮箱">
+            </div>
+            <button type="submit" class="btn btn-success">提交</button>
+            <a class="btn btn-info" href="javascript:history.back(-1)" style="margin-left: 80%">返回</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -192,7 +192,7 @@
             <ul class="sidebar-menu">
                 <li class="header">菜单</li>
 
-                <li id="admin-index"><a href="admin_index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                <li id="admin-index"><a href="/admin"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
                 <!-- 菜单 -->
 
@@ -254,7 +254,7 @@
                     <ul class="treeview-menu">
 
                         <li id="elements-general">
-                            <a href="all-elements-general.html">
+                            <a href="/edit_user">
                                 <i class="fa fa-circle-o"></i> 修改用户
                             </a>
                         </li>
@@ -306,9 +306,9 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="新建"><i
+                                    <a href="/admin/adj_user/-1" type="button" class="btn btn-default"><i
                                             class="fa fa-file-o"></i> 新建用户
-                                    </button>
+                                    </a>
                                     <button type="button" class="btn btn-default" title="删除" @click="delete_user()"><i
                                             class="fa fa-trash-o"></i> 删除用户
                                     </button>
@@ -357,7 +357,8 @@
                                             <td>{{item.username}}</td>
                                             <td>{{item.email}}</td>
                                             <td>{{item.password}}</td>
-                                            <td align="center"><a class="btn btn-info" href="#">操作</a></td>
+                                            <td align="center"><a class="btn btn-info"
+                                                                  v-bind:href="['/admin/adj_user/'+item.id]">修改</a></td>
                                         </tr>
 
                                         </tbody>
@@ -370,7 +371,7 @@
                                         1 to {{ max }} of {{ num }} entries
                                     </div>
                                 </div>
-                                <div class="col-sm-7">
+                                <div v-bind:class="{hidden:j}" class="col-sm-7">
                                     <div class="dataTables_paginate paging_simple_numbers">
                                         <ul class="pagination">
                                             <li v-bind:class="{disabled:!(data.hasPreviousPage)}"
@@ -419,6 +420,7 @@
             list: {},
             username: "",
             delete_id: [],
+            j: false,
             url: '/admin/user/page/'
         },
         mounted: function () {
@@ -481,7 +483,12 @@
             },
             search_user: function () {
                 var obj = this;
-                alert(obj.username);
+                var str = '';
+                str = obj.username;
+                axios.post('/admin/user/search', {data: str}).then(function (response) {
+                    obj.list = response.data;
+                    obj.j = true;
+                })
             }
         }
     });

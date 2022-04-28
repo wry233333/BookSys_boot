@@ -48,4 +48,13 @@ public interface UserDao {
     //通过用户名查找用户
     @Select("select * from tbl_user where username = #{username}")
     List<User> findUserByName(String username);
+
+    //通过用户id查询用户
+    @Select("select * from tbl_user where id=#{id}")
+    User findUserById2(long id);
+
+
+    //更新用户信息
+    @Update("update tbl_user set username = #{username},password = #{password},email = #{email} where id = #{id}")
+    void updateUser(User user);
 }

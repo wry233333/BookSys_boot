@@ -204,4 +204,17 @@ public class UserServiceImpl implements UserService {
     public List<User> searchUser(String username) {
         return userDao.findUserByName(username);
     }
+
+    @Override
+    public User getGetUser(long id) {
+        return userDao.findUserById2(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        if (user.getId() == -1) {
+            userDao.saveUser(user);
+        }
+        userDao.updateUser(user);
+    }
 }

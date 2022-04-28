@@ -33,7 +33,15 @@ public interface UserService {
     //获得所有用户
     List<User> getAllUser(int i);
 
+    //删除用户
     void deleteUser(List<String> list_id);
 
+    //按用户名搜索用户
     List<User> searchUser(String username);
+
+    //通过uid获得用户
+    User getGetUser(long id);
+
+    //更新用户信息
+    void updateUser(User user);
 }

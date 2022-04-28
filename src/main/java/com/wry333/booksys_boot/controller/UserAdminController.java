@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/user")
@@ -65,8 +66,9 @@ public class UserAdminController {
 
     @PostMapping("/search")
     @ResponseBody
-    public List<User> searchUser(String username) {
-        List<User> list = userService.searchUser(username);
+    public List<User> searchUser(@RequestBody Map map) {
+        System.out.println(map.get("data"));
+        List<User> list = userService.searchUser((String) map.get("data"));
         return list;
     }
 }
