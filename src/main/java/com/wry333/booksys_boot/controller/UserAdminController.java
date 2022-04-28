@@ -50,9 +50,23 @@ public class UserAdminController {
         return list;
     }
 
+    /**
+     * 处理删除用户的请求
+     *
+     * @param list_id
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public boolean deleteUser(@RequestBody List<String> list_id) {
+        userService.deleteUser(list_id);
+        return true;
+    }
 
-    @DeleteMapping
-    public void deleteUser() {
-
+    @PostMapping("/search")
+    @ResponseBody
+    public List<User> searchUser(String username) {
+        List<User> list = userService.searchUser(username);
+        return list;
     }
 }

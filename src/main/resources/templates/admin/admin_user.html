@@ -322,8 +322,9 @@
                         <!--右侧搜索框-->
                         <div class="box-tools pull-right">
                             <div class="has-feedback">
-                                <input type="text" class="form-control input-sm" placeholder="搜索">
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                <input @keyup.enter="search_user()" v-model="username" type="text"
+                                       class="form-control input-sm" placeholder="通过用户名搜索">
+                                <a class="glyphicon glyphicon-search form-control-feedback"></a>
                             </div>
                         </div>
                         <!--右侧搜索框结束-->
@@ -416,7 +417,9 @@
             num: 0,
             data: {},
             list: {},
-            delete_id: []
+            username: "",
+            delete_id: [],
+            url: '/admin/user/page/'
         },
         mounted: function () {
             this.getUsers();
@@ -424,7 +427,7 @@
         methods: {
             getUsers: function () {
                 var obj = this;
-                axios.get('/admin/user/page/1')
+                axios.get(obj.url + 1)
                     .then(function (response) {
                         let a = response.data.list;
                         obj.list = a;
@@ -439,7 +442,7 @@
             getPage: function (i) {
                 var obj = this;
                 if (i != 0) {
-                    axios.get('/admin/user/page/' + i)
+                    axios.get(obj.url + i)
                         .then(function (response) {
                             let a = response.data.list;
                             obj.list = a;
@@ -454,8 +457,31 @@
             },
             delete_user: function () {
                 var obj = this;
-                alert(JSON.stringify(obj.delete_id));
-                axios.delete('')
+                //var param = JSON.stringify(obj.delete_id)
+                if (confirm('确定要删除吗') != true) {
+
+                } else {
+                    axios.delete("/admin/user/delete", {data: obj.delete_id}).then(function (response) {
+                        if (response.data == true) {
+                            alert("删除成功");
+                            axios.get(obj.url + 1)
+                                .then(function (response) {
+                                    let a = response.data.list;
+                                    obj.list = a;
+                                    obj.max = response.data.pages;
+                                    obj.num = response.data.total;
+                                    obj.data = response.data;
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                        }
+                    })
+                }
+            },
+            search_user: function () {
+                var obj = this;
+                alert(obj.username);
             }
         }
     });

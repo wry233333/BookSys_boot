@@ -32,4 +32,8 @@ public interface UserService {
 
     //获得所有用户
     List<User> getAllUser(int i);
+
+    void deleteUser(List<String> list_id);
+
+    List<User> searchUser(String username);
 }

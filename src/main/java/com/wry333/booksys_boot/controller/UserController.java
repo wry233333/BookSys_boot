@@ -211,6 +211,11 @@ public class UserController {
         return mav;
     }
 
+    /**
+     * 返回用户管理页面
+     *
+     * @return
+     */
     @RequestMapping("/edit_user")
     public String edit_user() {
         return "/admin/admin_user";

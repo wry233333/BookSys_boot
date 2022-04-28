@@ -31,11 +31,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     BookDao bookDao;
 
+    /**
+     * 登录实现
+     *
+     * @param user
+     * @return
+     */
     @Override
     public User login(User user) {
         return userDao.login(user);
     }
 
+
+    /**
+     * 注册实现
+     *
+     * @param user
+     * @return
+     */
     @Override
     public boolean register(User user) {
         if (userDao.findByEmail(user) == null) {
@@ -44,6 +57,14 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    /**
+     * 查询首页各种数据
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
 
     @Override
     public List<Integer> get_index_data(User user) throws Exception {
@@ -70,6 +91,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * 查询当前登录用户的所有借阅记录
+     *
+     * @param user
+     * @return
+     */
+
     @Override
     public List<Record> getAllRecord(User user) {
         PageHelper.startPage(1, 5);
@@ -84,17 +112,38 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
+
+    /**
+     * 重置密码业务的实现
+     *
+     * @param user
+     * @param new_pwd
+     * @return
+     */
     @Override
     public boolean resetPwd(User user, String new_pwd) {
         userDao.resetPwd(user, new_pwd);
         return true;
     }
 
+
+    /**
+     * 重命名用户名的实现
+     *
+     * @param user
+     * @param username
+     */
     @Override
     public void rename(User user, String username) {
         userDao.rename(user.getId(), username);
     }
 
+    /**
+     * 获得管理员登录页面的数据
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Integer> get_admin_data() throws Exception {
         List<Integer> list = new ArrayList<Integer>();
@@ -118,11 +167,41 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-
+    /**
+     * 分页查询每五条用户数据
+     *
+     * @param i
+     * @return
+     */
     @Override
     public List<User> getAllUser(int i) {
         PageHelper.startPage(i, 5);
         List<User> list = userDao.findAllUsers();
         return list;
+    }
+
+    /**
+     * 通过list数组批量删除用户
+     *
+     * @param list_id
+     */
+
+    @Override
+    public void deleteUser(List<String> list_id) {
+        for (String user_id : list_id) {
+            userDao.deleteUserById(user_id);
+        }
+    }
+
+    /**
+     * 通过用户查找用户
+     *
+     * @param username
+     * @return
+     */
+
+    @Override
+    public List<User> searchUser(String username) {
+        return userDao.findUserByName(username);
     }
 }

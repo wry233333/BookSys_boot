@@ -40,4 +40,12 @@ public interface UserDao {
     //通过用户id查询用户
     @Select("select username from tbl_user where id=#{id}")
     String findUserById(long id);
+
+    //通过用户id删除用户
+    @Update("delete from tbl_user where id = #{user_id}")
+    int deleteUserById(String user_id);
+
+    //通过用户名查找用户
+    @Select("select * from tbl_user where username = #{username}")
+    List<User> findUserByName(String username);
 }
