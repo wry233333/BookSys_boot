@@ -2,6 +2,7 @@ package com.wry333.booksys_boot.dao;
 
 
 import com.wry333.booksys_boot.domain.User;
+import com.wry333.booksys_boot.domain.User_Level;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -57,4 +58,17 @@ public interface UserDao {
     //更新用户信息
     @Update("update tbl_user set username = #{username},password = #{password},email = #{email} where id = #{id}")
     void updateUser(User user);
+
+    //查询admin表获得用户的类别等级
+    @Select("select * from tbl_admin where id = #{id}")
+    User_Level getUserLevel(User u);
+
+
+    //添加管员
+    @Insert("insert into tbl_admin values(#{id},'图书管理员',1)")
+    int addAdmin(String id);
+
+    //删除管理员
+    @Delete("delete from tbl_admin where id = #{id}")
+    int deleteAdmin(String id);
 }

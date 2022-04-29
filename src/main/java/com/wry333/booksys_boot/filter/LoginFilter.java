@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
         if (uri.contains("/sign_in") || uri.contains("/user_login") || uri.contains("/sign_up")
                 || uri.contains("/register") || uri.contains("/plugins") ||
                 uri.contains("/index") || uri.contains("/img") || uri.contains("/css") || uri.equals("/") || uri.contains("/findUserPwd") || uri.contains("/findPwd")
-                || uri.contains("/changePwd")
+                || uri.contains("/changePwd") || uri.contains("/admin/user/")
         ) {
             chain.doFilter(request, response);
         } else {

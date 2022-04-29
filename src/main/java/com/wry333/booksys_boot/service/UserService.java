@@ -1,5 +1,6 @@
 package com.wry333.booksys_boot.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
 
@@ -50,4 +51,14 @@ public interface UserService {
 
     //找回密码
     void finPwd(String email, String password);
+
+    //查找全部用户包含类的数据
+    PageInfo<User> getUserClasses(int p);
+
+    //查询输入用户名的信息
+    List<User> findUser_Class(String data);
+
+    boolean addAdmin(String id);
+
+    boolean deleteAdmin(String id);
 }

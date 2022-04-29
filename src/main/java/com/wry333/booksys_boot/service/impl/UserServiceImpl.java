@@ -1,11 +1,13 @@
 package com.wry333.booksys_boot.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wry333.booksys_boot.dao.BookDao;
 import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
+import com.wry333.booksys_boot.domain.User_Level;
 import com.wry333.booksys_boot.service.UserService;
 import com.wry333.booksys_boot.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -239,5 +241,54 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         User user1 = userDao.findByEmail(user);
         userDao.resetPwd(user1, password);
+    }
+
+
+    @Override
+    public PageInfo<User> getUserClasses(int p) {
+        PageHelper.startPage(p, 5);
+        User_Level level = new User_Level();
+        level.setClasses("普通用户");
+        List<User> list = userDao.findAllUsers();
+        for (User u : list) {
+            if (userDao.getUserLevel(u) != null)
+                u.setLevel(userDao.getUserLevel(u));
+            else {
+                u.setLevel(level);
+            }
+        }
+        PageInfo<User> pageInfo = new PageInfo<User>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public List<User> findUser_Class(String data) {
+        User_Level level = new User_Level();
+        level.setClasses("普通用户");
+        List<User> list = userDao.findUserByName(data);
+        for (User u : list) {
+            if (userDao.getUserLevel(u) != null)
+                u.setLevel(userDao.getUserLevel(u));
+            else {
+                u.setLevel(level);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public boolean addAdmin(String id) {
+        try {
+            userDao.addAdmin(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteAdmin(String id) {
+        if (userDao.deleteAdmin(id) != 0) return true;
+        else return false;
     }
 }

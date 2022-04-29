@@ -261,4 +261,9 @@ public class UserController {
         }
         return mav;
     }
+
+    @RequestMapping("/admin/userClass")
+    public String admin_userClass() {
+        return "/admin/admin_authority_manage";
+    }
 }

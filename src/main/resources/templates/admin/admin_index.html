@@ -260,7 +260,7 @@
                         </li>
 
                         <li id="elements-icons">
-                            <a href="all-elements-icons.html">
+                            <a href="/admin/userClass">
                                 <i class="fa fa-circle-o"></i> 修改用户权限
                             </a>
                         </li>
@@ -508,7 +508,6 @@
                         let a = response.data.list;
                         obj.msg = a;
                         obj.max = response.data.pages;
-                        alert(obj.max);
                     })
                     .catch(function (error) {
                         console.log(error);

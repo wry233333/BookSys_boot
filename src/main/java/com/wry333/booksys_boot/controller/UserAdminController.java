@@ -72,5 +72,28 @@ public class UserAdminController {
         return list;
     }
 
+    @GetMapping("/classes/page/{page}")
+    @ResponseBody
+    public PageInfo<User> getUserClasses(@PathVariable String page) {
+        int p = Integer.parseInt(page);
+        return userService.getUserClasses(p);
+    }
 
+    @PostMapping("/classes/search/")
+    @ResponseBody
+    public List<User> class_searchUser(@RequestBody Map map) {
+        return userService.findUser_Class((String) map.get("data"));
+    }
+
+    @PostMapping("/classes/")
+    @ResponseBody
+    public boolean update_userClass(@RequestBody Map map) {
+        return userService.addAdmin((String) map.get("data"));
+    }
+
+    @PostMapping("/classes/delete")
+    @ResponseBody
+    public boolean delete_userClass(@RequestBody Map map) {
+        return userService.deleteAdmin((String) map.get("data"));
+    }
 }
