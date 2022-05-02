@@ -1,13 +1,11 @@
 package com.wry333.booksys_boot.controller;
 
-import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 
@@ -17,8 +15,13 @@ import java.util.Map;
 @RequestMapping("/findPwd")
 public class UserRestController {
 
-    @Autowired
+    final
     UserService userService;
+
+    @Autowired
+    public UserRestController(UserService userService) {
+        this.userService = userService;
+    }
 
     //测试接口仅供测试使用
     @PostMapping

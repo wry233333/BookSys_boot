@@ -6,10 +6,7 @@ import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -18,14 +15,19 @@ import java.util.List;
 @Controller
 public class UserController {
 
+
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 返回登录页面
      *
-     * @param mav
-     * @return
+     * @param mav 视图解析器
+     * @return 视图解析器
      */
     @RequestMapping("/sign_in")
     public ModelAndView sign_in(ModelAndView mav) {
@@ -36,8 +38,8 @@ public class UserController {
     /**
      * 返回注册页面
      *
-     * @param mav
-     * @return
+     * @param mav 视图解析器
+     * @return 视图解析器
      */
 
     @RequestMapping("/sign_up")
@@ -51,9 +53,9 @@ public class UserController {
      * 处理用户登录
      *
      * @param user    自动注入需要的登录的用户对象数据
-     * @param mav
+     * @param mav     视图解析器
      * @param session 用于保存用户的session
-     * @return
+     * @return 视图解析器
      */
     @RequestMapping("user_login")
     public ModelAndView user_login(User user, ModelAndView mav, HttpSession session) {
@@ -73,8 +75,8 @@ public class UserController {
      * 处理用户注册
      *
      * @param user 自动注入用户输入数据
-     * @param mav
-     * @return
+     * @param mav 视图解析器
+     * @return 视图解析器
      */
 
     @RequestMapping("/register")
@@ -92,9 +94,9 @@ public class UserController {
     /**
      * 用户主页数据与视图结合的controller
      *
-     * @param mav
+     * @param mav 视图解析器
      * @param user 自动注入已经登录的用户
-     * @return
+     * @return 视图解析器
      * @throws Exception 抛出时间处理异常
      */
     @RequestMapping("/user_admin")
@@ -111,7 +113,7 @@ public class UserController {
      * 处理用户退出登录
      *
      * @param session 用于删除用户数据的session
-     * @return
+     * @return 视图解析器
      */
     @RequestMapping("log_out")
     public String log_out(HttpSession session) {
@@ -121,21 +123,9 @@ public class UserController {
 
 
     /**
-     * 返回一个空页面，开发专用，部署时应删掉
-     *
-     * @return
-     */
-
-    @RequestMapping("/test")
-    public String test() {
-        return "whitepage";
-    }
-
-
-    /**
      * 返回重置密码页面
      *
-     * @return
+     * @return 视图解析器
      */
     @RequestMapping("/reset")
     public String reset() {
@@ -148,8 +138,8 @@ public class UserController {
      * @param pwd     用户输入的原密码
      * @param new_pwd 新密码
      * @param session 更新session
-     * @param mav
-     * @return
+     * @param mav 视图解析器
+     * @return 视图解析器
      */
 
     @RequestMapping("/resetPwd")
@@ -170,7 +160,7 @@ public class UserController {
     /**
      * 返回修改用户名的页面
      *
-     * @return
+     *  @return 视图解析器
      */
     @RequestMapping("/rename")
     public String rename() {
@@ -180,11 +170,11 @@ public class UserController {
     /**
      * 处理用户重命名的请求
      *
-     * @param mav
+     * @param mav 视图解析器
      * @param username 新用户名
      * @param user     session中用户对象
      * @param session  更新session
-     * @return
+     * @return 视图解析器
      */
 
     @RequestMapping("/user_rename")
@@ -200,12 +190,12 @@ public class UserController {
     /**
      * 返回管理员主页
      *
-     * @return
+     * @return 视图解析器
      */
     @RequestMapping("/admin")
     public ModelAndView admin(ModelAndView mav) throws Exception {
         mav.setViewName("/admin/admin_index");
-        List list = userService.get_admin_data();
+        List<Integer> list = userService.get_admin_data();
         mav.addObject("list", list);
 
         return mav;
@@ -214,7 +204,7 @@ public class UserController {
     /**
      * 返回用户管理页面
      *
-     * @return
+     * @return 视图解析器
      */
     @RequestMapping("/edit_user")
     public String edit_user() {
@@ -265,5 +255,12 @@ public class UserController {
     @RequestMapping("/admin/userClass")
     public String admin_userClass() {
         return "/admin/admin_authority_manage";
+    }
+
+
+    @RequestMapping("/test123")
+    @ResponseBody
+    public String test231() {
+        return "fuck";
     }
 }

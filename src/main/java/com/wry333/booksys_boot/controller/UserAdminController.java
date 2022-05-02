@@ -12,50 +12,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/admin/user")
 public class UserAdminController {
 
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
+
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
+    public UserAdminController(AdminService adminService, UserService userService) {
+        this.adminService = adminService;
+        this.userService = userService;
+    }
 
     /**
      * 首页用户分页显示功能
      *
-     * @param page
-     * @return
+     * @param page 页数
+     * @return 包含数据的页面信息
      */
 
     @GetMapping("/page/{page}")
     @ResponseBody
     public PageInfo<User> getAllUser(@PathVariable String page) {
         List<User> list = userService.getAllUser(Integer.parseInt(page));
-        PageInfo<User> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        return new PageInfo<>(list);
     }
 
 
     /**
      * 首页显示借阅记录
      *
-     * @return
+     * @return 获得所有的借阅记录
      */
 
     @GetMapping("/list")
     @ResponseBody
     public List<Record> getAllRecord() {
-        List<Record> list = adminService.findAllRecord();
-        return list;
+        return adminService.findAllRecord();
     }
 
     /**
      * 处理删除用户的请求
      *
-     * @param list_id
-     * @return
+     * @param list_id 路径变量
+     * @return 返回删除是否成功
      */
     @DeleteMapping("/delete")
     @ResponseBody
@@ -68,8 +71,7 @@ public class UserAdminController {
     @ResponseBody
     public List<User> searchUser(@RequestBody Map map) {
         System.out.println(map.get("data"));
-        List<User> list = userService.searchUser((String) map.get("data"));
-        return list;
+        return userService.searchUser((String) map.get("data"));
     }
 
     @GetMapping("/classes/page/{page}")
