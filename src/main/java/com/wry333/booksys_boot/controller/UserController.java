@@ -194,7 +194,7 @@ public class UserController {
      */
     @RequestMapping("/admin")
     public ModelAndView admin(ModelAndView mav) throws Exception {
-        mav.setViewName("/admin/admin_index");
+        mav.setViewName("admin_index");
         List<Integer> list = userService.get_admin_data();
         mav.addObject("list", list);
 
@@ -208,7 +208,7 @@ public class UserController {
      */
     @RequestMapping("/edit_user")
     public String edit_user() {
-        return "/admin/admin_user";
+        return "admin_user";
     }
 
 
@@ -222,7 +222,7 @@ public class UserController {
         if (id != -1) {
             user = userService.getGetUser(id);
         }
-        mav.setViewName("/admin/admin_userInfo");
+        mav.setViewName("admin_userInfo");
         mav.addObject("user", user);
         return mav;
     }
@@ -254,7 +254,7 @@ public class UserController {
 
     @RequestMapping("/admin/userClass")
     public String admin_userClass() {
-        return "/admin/admin_authority_manage";
+        return "admin_authority_manage";
     }
 
 
