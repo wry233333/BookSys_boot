@@ -215,7 +215,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        if (user.getId() == -1) {
+        if (user.getId() == 0) {
             userDao.saveUser(user);
         }
         userDao.updateUser(user);

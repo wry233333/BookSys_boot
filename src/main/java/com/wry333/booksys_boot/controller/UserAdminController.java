@@ -57,12 +57,13 @@ public class UserAdminController {
     /**
      * 处理删除用户的请求
      *
-     * @param list_id 路径变量
+     * @param map 路径变量
      * @return 返回删除是否成功
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @ResponseBody
-    public boolean deleteUser(@RequestBody List<String> list_id) {
+    public boolean deleteUser(@RequestBody Map map) {
+        List<String> list_id = (List<String>) map.get("data");
         userService.deleteUser(list_id);
         return true;
     }

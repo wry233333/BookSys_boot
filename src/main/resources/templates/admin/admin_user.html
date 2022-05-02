@@ -189,7 +189,7 @@
                         </li>
 
                         <li id="elements-icons">
-                            <a href="all-elements-icons.html">
+                            <a href="/admin/userClass">
                                 <i class="fa fa-circle-o"></i> 修改用户权限
                             </a>
                         </li>
@@ -392,7 +392,7 @@
                 if (confirm('确定要删除吗') != true) {
 
                 } else {
-                    axios.delete("/admin/user/classses", {data: obj.delete_id}).then(function (response) {
+                    axios.post("/admin/user/delete", {data: obj.delete_id}).then(function (response) {
                         if (response.data == true) {
                             alert("删除成功");
                             axios.get(obj.url + 1)
@@ -403,11 +403,12 @@
                                     obj.num = response.data.total;
                                     obj.data = response.data;
                                 })
-                                .catch(function (error) {
-                                    console.log(error);
-                                });
+
                         }
-                    })
+                    }).catch(function (error) {
+                        alert("权限不足，或用户的借阅记录不为空");
+                        console.log(error);
+                    });
                 }
             },
             search_user: function () {
