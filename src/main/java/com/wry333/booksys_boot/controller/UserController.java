@@ -83,8 +83,7 @@ public class UserController {
     public ModelAndView user_register(User user, ModelAndView mav) {
         mav.setViewName("register");
         if (userService.register(user)) {
-            mav.setViewName("forward:login");
-            mav.addObject("log_msg", "注册成功，请登录");
+            mav.setViewName("redirect:/sign_in");
         } else {
             mav.addObject("reg_msg", "邮箱地址重复，请重试");
         }
