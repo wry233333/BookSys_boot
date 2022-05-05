@@ -1,4 +1,4 @@
-package com.wry333.booksys_boot;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

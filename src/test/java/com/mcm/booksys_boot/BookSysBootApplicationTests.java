@@ -1,4 +1,4 @@
-package com.wry333.booksys_boot;
+package com.mcm.booksys_boot;
 
 import com.github.pagehelper.PageHelper;
 import com.wry333.booksys_boot.dao.RecordDao;
