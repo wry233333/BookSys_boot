@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         }
         object.add(i);
         if (sum != 0) {
-            float f = (float) i / (float) sum;
+            float f = (float) (sum - i) / (float) sum;
             f = f * 100;
             System.out.println(f);
             int j = (int) f;
@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
         list.add(i);
         int record = recordDao.getAllNum();
         if (record != 0) {
-            float f = (float) i / (float) record;
+            float f = (float) (record - i) / (float) record;
             f = f * 100;
             list.add((int) f);
         } else {
