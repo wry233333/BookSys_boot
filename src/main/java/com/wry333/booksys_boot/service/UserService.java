@@ -61,4 +61,7 @@ public interface UserService {
     boolean addAdmin(String id);
 
     boolean deleteAdmin(String id);
+
+
+    void admin_reset_pwd(long id);
 }

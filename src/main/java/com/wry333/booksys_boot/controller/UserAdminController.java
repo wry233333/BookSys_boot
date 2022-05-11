@@ -99,4 +99,12 @@ public class UserAdminController {
     public boolean delete_userClass(@RequestBody Map map) {
         return userService.deleteAdmin((String) map.get("data"));
     }
+
+    @GetMapping("/reset_user_pwd/{id}")
+    @ResponseBody
+    public boolean reset_user_pwd(@PathVariable String id) {
+        long uid = Long.parseLong(id);
+        userService.admin_reset_pwd(uid);
+        return true;
+    }
 }

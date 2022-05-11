@@ -377,14 +377,13 @@
                     <div class="table-box">
 
                         <!--数据列表-->
-                        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                        <table id="dataList1" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
                                 <th class="">序号</th>
                                 <th class="">用户id</th>
                                 <th class="">用户名</th>
                                 <th class="">注册邮箱</th>
-                                <th class="">密码</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
@@ -396,7 +395,6 @@
                                 <td>{{ item.id }}</td>
                                 <td>{{ item.username }}</td>
                                 <td>{{ item.email }}</td>
-                                <td>{{ item.password }}</td>
                                 <td class="text-center">
                                     <a href="/edit_user" class="btn btn-info">修改</a>
                                 </td>

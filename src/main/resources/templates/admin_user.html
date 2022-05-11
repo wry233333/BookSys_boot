@@ -182,7 +182,7 @@
                     </a>
                     <ul class="treeview-menu">
 
-                        <li id="elements-general">
+                        <li id="user_adj">
                             <a href="/edit_user">
                                 <i class="fa fa-circle-o"></i> 修改用户
                             </a>
@@ -273,7 +273,6 @@
                                             <th>用户id</th>
                                             <th>姓名</th>
                                             <th>邮箱</th>
-                                            <th>密码</th>
                                             <th align="center">操作</th>
                                         </tr>
                                         </thead>
@@ -285,9 +284,10 @@
                                             <td class="sorting_1">{{item.id}}</td>
                                             <td>{{item.username}}</td>
                                             <td>{{item.email}}</td>
-                                            <td>{{item.password}}</td>
                                             <td align="center"><a class="btn btn-info"
-                                                                  v-bind:href="['/admin/adj_user/'+item.id]">修改</a></td>
+                                                                  v-bind:href="['/admin/adj_user/'+item.id]">修改</a>
+                                                <button class="btn btn-danger" @click="reset_pwd(item.id)">重置密码</button>
+                                            </td>
                                         </tr>
 
                                         </tbody>
@@ -419,6 +419,18 @@
                     obj.list = response.data;
                     obj.j = true;
                 })
+            },
+            reset_pwd: function (i) {
+                let obj = this;
+                if (confirm('确定要重设该用户密码吗?') == true) {
+                    axios.get('/admin/user/reset_user_pwd/' + i).then(function (response) {
+                        if (response.data == true) {
+                            alert("成功重设密码并发送邮件");
+                        } else {
+                            alert("重设失败");
+                        }
+                    })
+                }
             }
         }
     });
@@ -492,7 +504,7 @@
 
     $(document).ready(function () {
         // 激活导航位置
-        setSidebarActive("admin-index");
+        setSidebarActive("user_adj");
     });
 </script>
 </body>

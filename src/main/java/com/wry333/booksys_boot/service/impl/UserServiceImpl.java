@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
         list.add(i);
         int record = recordDao.getAllNum();
         if (record != 0) {
-            float f = (float) (record - i) / (float) record;
+            float f = (float) i / (float) record;
             f = f * 100;
             list.add((int) f);
         } else {
@@ -290,5 +290,13 @@ public class UserServiceImpl implements UserService {
     public boolean deleteAdmin(String id) {
         if (userDao.deleteAdmin(id) != 0) return true;
         else return false;
+    }
+
+    @Override
+    public void admin_reset_pwd(long id) {
+        Integer pwd = (int) ((Math.random() * 9 + 1) * 100000);
+        User user = userDao.findUserById2(id);
+        userDao.resetPwd(user, pwd.toString());
+        MailUtils.sendMail(user.getEmail(), "您的新密码是" + pwd, "密码重置邮件");
     }
 }
