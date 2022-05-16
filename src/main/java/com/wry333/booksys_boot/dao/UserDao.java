@@ -71,4 +71,9 @@ public interface UserDao {
     //删除管理员
     @Delete("delete from tbl_admin where id = #{id}")
     int deleteAdmin(String id);
+
+
+    //查找管理员
+    @Select("select * from tbl_admin where id = #{id}")
+    User findAdmin(User user);
 }

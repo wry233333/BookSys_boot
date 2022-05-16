@@ -64,4 +64,6 @@ public interface UserService {
 
 
     void admin_reset_pwd(long id);
+
+    boolean equ_admin(User user);
 }

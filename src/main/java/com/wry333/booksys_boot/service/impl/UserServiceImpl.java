@@ -299,4 +299,12 @@ public class UserServiceImpl implements UserService {
         userDao.resetPwd(user, pwd.toString());
         MailUtils.sendMail(user.getEmail(), "您的新密码是" + pwd, "密码重置邮件");
     }
+
+    @Override
+    public boolean equ_admin(User user) {
+        if (userDao.findAdmin(user) != null) {
+            return true;
+        }
+        return false;
+    }
 }
