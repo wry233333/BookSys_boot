@@ -17,16 +17,24 @@ public class BookController {
     BookService bookService;
 
     @RequestMapping("/allBookInfo")
-    public ModelAndView book_info(Book book, ModelAndView mav)
-    {
+    public ModelAndView book_info(Book book, ModelAndView mav) {
         mav.setViewName("/admin/allBookInfo");
         PageInfo<Book> bookList = bookService.getAllBook(1);
-        mav.addObject("list",bookList.getList());
+        mav.addObject("list", bookList.getList());
         return mav;
     }
+
+    @RequestMapping("/managerBookInfo")
+    public ModelAndView book_info_1(Book book, ModelAndView mav) {
+        mav.setViewName("/admin/managerBookInfo");
+        PageInfo<Book> bookList = bookService.getAllBook(1);
+        mav.addObject("list", bookList.getList());
+        return mav;
+    }
+
+
     @RequestMapping("/addBook")
-        public ModelAndView book_add(Book book,ModelAndView mav)
-    {
+    public ModelAndView book_add(Book book, ModelAndView mav) {
         mav.setViewName("/admin/addBookInfo");
         bookService.AddBook(book);
         return mav;
