@@ -3,8 +3,7 @@ package com.wry333.booksys_boot.dao;
 
 import com.wry333.booksys_boot.domain.Record;
 import com.wry333.booksys_boot.domain.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -43,4 +42,13 @@ public interface RecordDao {
 
     @Select("select * from tbl_list")
     List<Record> findAll();
+
+    @Insert("insert into tbl_list values (null,#{id},#{b_id},#{return_date},#{borrow_date},null)")
+    void saveRecord(Record record);
+
+    @Delete("delete from tbl_list where l_id = #{parseLong}")
+    void deleteRecord(long parseLong);
+
+    @Update("update tbl_list set id = #{id}, b_id = #{b_id} , return_date = #{return_date} , borrow_date = #{borrow_date}, rel_date = #{rel_date} where l_id = #{l_id}")
+    void updateRecord(Record record);
 }

@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        if (uri.contains("/sign_in") || uri.contains("/user_login") || uri.contains("/sign_up")
+        if (uri.contains("/record") || uri.contains("/sign_in") || uri.contains("/user_login") || uri.contains("/sign_up")
                 || uri.contains("/register") || uri.contains("/plugins") ||
                 uri.contains("/index") || uri.contains("/img") || uri.contains("/css") || uri.equals("/") || uri.contains("/findUserPwd") || uri.contains("/findPwd")
                 || uri.contains("/changePwd") || uri.contains("/admin/user/")

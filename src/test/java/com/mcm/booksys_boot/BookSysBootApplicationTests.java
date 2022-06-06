@@ -1,18 +1,14 @@
 package com.mcm.booksys_boot;
 
-import com.github.pagehelper.PageHelper;
+import com.hyn.booksys_boot.service.RecordService;
 import com.wry333.booksys_boot.dao.RecordDao;
 import com.wry333.booksys_boot.dao.UserDao;
-import com.wry333.booksys_boot.domain.Record;
-import com.wry333.booksys_boot.domain.User;
 import com.wry333.booksys_boot.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class BookSysBootApplicationTests {
@@ -24,6 +20,9 @@ class BookSysBootApplicationTests {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RecordService recordService;
 
     //@Test
 //    void contextLoads() {
@@ -69,5 +68,4 @@ class BookSysBootApplicationTests {
 //        List<User> user = userService.getAllUser(Integer.parseInt("1"));
 //        System.out.println(user);
 //    }
-
 }
