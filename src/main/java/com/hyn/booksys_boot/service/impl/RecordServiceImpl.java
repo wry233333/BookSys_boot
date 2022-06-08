@@ -128,7 +128,7 @@ public class RecordServiceImpl implements RecordService {
             Date return_date = myFormat.parse(record.getReturn_date());
             c.setTime(return_date);
             c.add(Calendar.MONTH, 3);
-            record.setReturn_date(myFormat.format(return_date));
+            record.setReturn_date(myFormat.format(c.getTime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
