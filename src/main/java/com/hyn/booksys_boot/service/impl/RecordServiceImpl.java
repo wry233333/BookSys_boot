@@ -121,6 +121,17 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public void delay(Map map) {
-
+        String l_id = (String) map.get("l_id");
+        Record record = recordDao.getRecordByLid(Long.parseLong(l_id));
+        Calendar c = Calendar.getInstance();
+        try {
+            Date return_date = myFormat.parse(record.getReturn_date());
+            c.setTime(return_date);
+            c.add(Calendar.MONTH, 3);
+            record.setReturn_date(myFormat.format(return_date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        recordDao.updateRecord(record);
     }
 }

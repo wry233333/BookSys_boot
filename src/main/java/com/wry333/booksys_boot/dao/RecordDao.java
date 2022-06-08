@@ -51,4 +51,8 @@ public interface RecordDao {
 
     @Update("update tbl_list set id = #{id}, b_id = #{b_id} , return_date = #{return_date} , borrow_date = #{borrow_date}, rel_date = #{rel_date} where l_id = #{l_id}")
     void updateRecord(Record record);
+
+
+    @Select("select * from tbl_list where l_id= #{l_id}")
+    Record getRecordByLid(Long l_id);
 }

@@ -4,7 +4,6 @@ package com.hyn.booksys_boot.controller;
 import com.github.pagehelper.PageInfo;
 import com.hyn.booksys_boot.service.RecordService;
 import com.wry333.booksys_boot.domain.Record;
-import com.wry333.booksys_boot.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
