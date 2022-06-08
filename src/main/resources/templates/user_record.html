@@ -21,7 +21,7 @@
     <!-- Date Picker -->
     <!-- Daterange picker -->
     <!-- Bootstrap time Picker -->
-    <!--<link rel="stylesheet" href="../..//plugins/timepicker/bootstrap-timepicker.min.css">-->
+    <!--<link rel="stylesheet" href="..//plugins/timepicker/bootstrap-timepicker.min.css">-->
     <!-- bootstrap wysihtml5 - text editor -->
     <!--数据表格-->
     <!-- 表格树 -->
@@ -63,7 +63,7 @@
     <!-- select2 -->
     <!-- bootstrap color picker -->
     <!-- bootstrap time picker -->
-    <!--<script src="../..//plugins/timepicker/bootstrap-timepicker.min.js"></script>-->
+    <!--<script src="..//plugins/timepicker/bootstrap-timepicker.min.js"></script>-->
     <!-- Bootstrap WYSIHTML5 -->
     <!--bootstrap-markdown-->
     <!-- CK Editor -->
@@ -104,11 +104,13 @@
     <link rel="stylesheet" href="/plugins/ionslider/ion.rangeSlider.skinNice.css">
     <link rel="stylesheet" href="/plugins/bootstrap-slider/slider.css">
     <link rel="stylesheet" href="/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+    <script src="../plugins/vue/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper" id="app">
 
     <!-- 页面头部 -->
     <header class="main-header">
@@ -162,7 +164,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="/reset" class="btn btn-default btn-flat">修改密码</a>
+                                    <a href="#" class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/log_out" class="btn btn-default btn-flat">注销</a>
@@ -243,7 +245,6 @@
                 </li>
 
 
-
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-cube"></i> <span>借阅管理</span>
@@ -304,12 +305,13 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                账户管理
+                借阅记录
+                <small>显示借阅记录</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/user_admin"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="#">账户管理</a></li>
-                <li class="active">修改用户名</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="#">借阅记录</a></li>
+                <li class="active">管理借阅记录</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -319,22 +321,106 @@
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">修改用户名</h3>
+                    <h3 class="box-title">借阅列表</h3>
                 </div>
 
                 <div class="box-body">
-                    <form action="/user_rename" method="post">
-                        <div class="form-group">
-                            <label>请输入新的用户名</label>
-                            <input name="username" type="text" class="form-control" placeholder="请输入 ...">
+
+                    <!-- 数据表格 -->
+                    <div class="table-box">
+
+                        <!--工具栏-->
+                        <div class="pull-left">
+                            <div class="form-group form-inline">
+                                <div class="btn-group">
+                                    <button @click="getRecords()" class="btn btn-default" title="刷新"><i
+                                            class="fa fa-refresh"></i> 刷新
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                        <button type="submit" class="btn btn-primary">修改</button>
-                        <div>
-                            <h4 align="center" style="color: lawngreen" th:text="${msg}"></h4>
-                        </div>
-                    </form>
+
+                        <!--工具栏/-->
+
+                        <!--数据列表-->
+                        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>借阅书籍</th>
+                                <th>借阅时间</th>
+                                <th>应该归还时间</th>
+                                <th>实际归还时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item) in list">
+                                <td><input v-model="delete_id" v-bind:value="item.l_id" type="checkbox"
+                                           style="zoom: 125%"></td>
+                                <td>{{item.b_name}}</td>
+                                <td>{{item.borrow_date}}</td>
+                                <td>{{item.return_date}}</td>
+                                <td>{{item.rel_date}}</td>
+                                <td>{{item.statue}}</td>
+                                <td>
+                                    <a href="#" @click="delaytime(item.l_id)" class="btn btn-info">提出延时请求</a>
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+
+                            <!--
+                    <tfoot>
+                    <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                    </tr>
+                    </tfoot>-->
+                        </table>
+                        <!--数据列表/-->
+
+                        <!--工具栏-->
+
+
+                        <!--工具栏/-->
+
+                    </div>
+                    <!-- 数据表格 /-->
+
                 </div>
+                <!-- /.box-body -->
+
+                <!-- .box-footer-->
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">展示
+                            1 to {{ max }} of {{ num }} entries
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                <li v-bind:class="{disabled:!(data.hasPreviousPage)}"
+                                    class="paginate_button previous" @click="getPage(data.prePage)">
+                                    <a>上一页</a></li>
+                                <li class="paginate_button" v-for="(i) in data.navigatepageNums"
+                                    v-bind:class="{active:(i==data.pageNum)}" @click="getPage(i)"><a>{{ i }}</a>
+                                </li>
+                                <li v-bind:class="{disabled:!(data.hasNextPage)}"
+                                    class="paginate_button next" @click="getPage(data.nextPage)"><a>下一页</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer-->
+
             </div>
 
         </section>
@@ -354,6 +440,60 @@
         </strong></footer>
     <!-- 底部导航 /-->
 </div>
+<script th:inline="javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            url: "/record/page/",
+            page: 1,
+            max: "",
+            num: "",
+            data: "",
+            list: "",
+            userinfo: [[${session.user.id}]],
+            delete_id: []
+        },
+        mounted: function () {
+            this.getRecords();
+        },
+        methods: {
+            getRecords: function () {
+                var obj = this;
+                axios.get(obj.url + obj.userinfo + '/' + obj.page)
+                    .then(function (response) {
+                        let a = response.data.list;
+                        obj.list = a;
+                        obj.max = response.data.pages;
+                        obj.num = response.data.total;
+                        obj.data = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getPage: function (i) {
+                var obj = this;
+                if (i != 0) {
+                    axios.get(obj.url + obj.userinfo + '/' + i)
+                        .then(function (response) {
+                            let a = response.data.list;
+                            obj.list = a;
+                            obj.max = response.data.pages;
+                            obj.num = response.data.total;
+                            obj.data = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            },
+            delaytime: function (l_id) {
+                alert("已提出延时延时请求");
+            }
+        }
+    });
+</script>
+
 
 <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="/plugins/jQueryUI/jquery-ui.min.js"></script>

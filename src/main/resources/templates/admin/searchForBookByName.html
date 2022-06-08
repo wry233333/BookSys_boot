@@ -104,6 +104,8 @@
     <link rel="stylesheet" href="/plugins/ionslider/ion.rangeSlider.skinNice.css">
     <link rel="stylesheet" href="/plugins/bootstrap-slider/slider.css">
     <link rel="stylesheet" href="/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+    <script src="../plugins/vue/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -254,22 +256,11 @@
                     <ul class="treeview-menu">
 
                         <li id="order-manage">
-                            <a href="all-order-manage-list.html">
+                            <a href="/user_allRecord">
                                 <i class="fa fa-circle-o"></i> 全部借阅
                             </a>
                         </li>
 
-                        <li id="order-null">
-                            <a href="all-order-cancel-list.html">
-                                <i class="fa fa-circle-o"></i> 未归还
-                            </a>
-                        </li>
-
-                        <li id="order-time-out">
-                            <a href="all-order-cancel-list.html">
-                                <i class="fa fa-circle-o"></i> 超时未归还
-                            </a>
-                        </li>
 
                     </ul>
                 </li>
@@ -310,7 +301,7 @@
     <!-- 导航侧栏 /-->
 
 
-    <div class="content-wrapper">
+    <div class="content-wrapper" id="app">
 
         <!-- 内容头部 -->
         <section class="content-header">
@@ -363,7 +354,7 @@
                                         <th>出版日期</th>
                                         <th>封面</th>
                                         <th>简介</th>
-                                        <th>类别</th>
+                                        <th>操作</th>
                                     </tr>
                                     <tr th:each="b:${nameList}">
                                         <td th:text="${b.b_id}"></td>
@@ -373,7 +364,27 @@
                                         <td th:text="${b.date}"></td>
                                         <td th:text="${b.info}"></td>
                                         <td th:text="${b.context}"></td>
-                                        <td th:text="${b.c_id}"></td>
+                                        <td>
+                                            <div class="btn-group" align="center">
+                                                <button type="button" class="btn btn-info"
+                                                        th:onclick="'javascript:addRecord('+${b.b_id}+',1)'">添加借阅
+                                                </button>
+                                                <button type="button" class="btn btn-info dropdown-toggle"
+                                                        data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a th:onclick="'javascript:addRecord('+${b.b_id}+',3)'">3个月</a>
+                                                    </li>
+                                                    <li><a th:onclick="'javascript:addRecord('+${b.b_id}+',6)'">6个月</a>
+                                                    </li>
+                                                    <li>
+                                                        <a th:onclick="'javascript:addRecord('+${b.b_id}+',12)'">12个月</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     </tr>
 
                                     </tbody></table>
@@ -403,6 +414,26 @@
         </strong></footer>
     <!-- 底部导航 /-->
 </div>
+
+<script th:inline="javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            userinfo: [[${session.user.id}]],
+        },
+        mounted() {
+            window.addRecord = this.addRecord;    // 方法赋值给window
+        },
+        methods: {
+            addRecord: function (b_id, month) {
+
+                var obj = this;
+                axios.post("/record/add", {id: obj.userinfo, b_id: b_id.toString(), time: month});
+                alert("借阅成功");
+            }
+        }
+    });
+</script>
 
 <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="/plugins/jQueryUI/jquery-ui.min.js"></script>

@@ -261,4 +261,9 @@ public class UserController {
     public String adminRecord() {
         return "manage_record";
     }
+
+    @RequestMapping("/user_allRecord")
+    public String allRecord() {
+        return "user_record";
+    }
 }

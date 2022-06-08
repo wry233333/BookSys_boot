@@ -256,22 +256,11 @@
                     <ul class="treeview-menu">
 
                         <li id="order-manage">
-                            <a href="all-order-manage-list.html">
+                            <a href="/user_allRecord">
                                 <i class="fa fa-circle-o"></i> 全部借阅
                             </a>
                         </li>
 
-                        <li id="order-null">
-                            <a href="all-order-cancel-list.html">
-                                <i class="fa fa-circle-o"></i> 未归还
-                            </a>
-                        </li>
-
-                        <li id="order-time-out">
-                            <a href="all-order-cancel-list.html">
-                                <i class="fa fa-circle-o"></i> 超时未归还
-                            </a>
-                        </li>
 
                     </ul>
                 </li>
@@ -357,7 +346,7 @@
                                 <th class="sorting">出版日期</th>
                                 <th class="sorting">封面</th>
                                 <th class="sorting">简介</th>
-                                <th class="text-center">类别</th>
+                                <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -369,10 +358,23 @@
                                 <td>{{item.data}}</td>
                                 <td>{{item.info}}</td>
                                 <td>{{item.context}}</td>
-                                <td>{{item.c_id}}</td>
-                               <th class="" style="padding-right:0px;">
-                                    <input name="b_id" id="selall" type="checkbox"  v-bind:value="item.b_id"   class="icheckbox_square-blue">
-                                </th>
+                                <td>
+                                    <div class="btn-group" align="center">
+                                        <button type="button" class="btn btn-info" @click="addRecord(item.b_id,1)">
+                                            添加借阅
+                                        </button>
+                                        <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a @click="addRecord(item.b_id,3)">3个月</a></li>
+                                            <li><a @click="addRecord(item.b_id,6)">6个月</a></li>
+                                            <li><a @click="addRecord(item.b_id,12)">12个月</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
 
 
@@ -448,7 +450,7 @@
         </strong></footer>
     <!-- 底部导航 /-->
 </div>
-<script>
+<script th:inline="javascript">
     new Vue({
         el: '#app',
         data: {
@@ -458,6 +460,7 @@
             data: {},
             list: {},
             j: false,
+            userinfo: [[${session.user.id}]],
             url: '/admin/allBookInfo/'
         },
         mounted: function () {
@@ -494,6 +497,11 @@
                         });
                 }
             },
+            addRecord: function (b_id, month) {
+                var obj = this;
+                axios.post("/record/add", {id: obj.userinfo, b_id: b_id, time: month});
+                alert("借阅成功");
+            }
         }
     });
 </script>

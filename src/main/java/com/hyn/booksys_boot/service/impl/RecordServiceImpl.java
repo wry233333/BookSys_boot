@@ -63,13 +63,13 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean saveRecord(Map map) {
         Record record = new Record();
-        record.setId(Long.parseLong((String) map.get("id")));
+        record.setId(((Integer) map.get("id")).longValue());
         record.setB_id(Long.parseLong((String) map.get("b_id")));
         Date date = new Date();
         record.setBorrow_date(myFormat.format(date.getTime()));
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.add(Calendar.MONTH, Integer.parseInt((String) map.get("time")));
+        c.add(Calendar.MONTH, (int) map.get("time"));
         record.setReturn_date(myFormat.format(c.getTime()));
         recordDao.saveRecord(record);
         return false;
