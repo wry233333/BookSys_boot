@@ -289,13 +289,13 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                模块名称
-                <small>模块功能</small>
+                借阅记录
+                <small>显示借阅记录</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="#">模块名称</a></li>
-                <li class="active">模块功能</li>
+                <li><a href="#">借阅记录</a></li>
+                <li class="active">管理借阅记录</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -305,73 +305,78 @@
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">图书列表</h3>
+                    <h3 class="box-title">借阅列表</h3>
                 </div>
 
                 <div class="box-body">
 
                     <!-- 数据表格 -->
                     <div class="table-box">
-                        <form action="/admin/deleteBook" method="post">
-                            <!--工具栏-->
-                            <div class="pull-left">
-                                <div class="form-group form-inline">
-                                    <div class="btn-group">
-                                        <a href="/admin/addnewbook" class="btn btn-info">新建</a>
-                                        <button type="submit" class="btn btn-default" title="删除"
-                                                onclick="confirm(&quot;你确认要删除吗？&quot;)"><i class="fa fa-trash-o"></i> 删除
-                                        </button>
-                                    </div>
+
+                        <!--工具栏-->
+                        <div class="pull-left">
+                            <div class="form-group form-inline">
+                                <div class="btn-group">
+                                    <button @click="deleteRecord()" class="btn btn-default" title="删除"><i
+                                            class="fa fa-trash-o"></i> 删除
+                                    </button>
+                                </div>
+                                <div class="btn-group">
+                                    <button @click="getRecords()" class="btn btn-default" title="刷新"><i
+                                            class="fa fa-refresh"></i> 刷新
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!--工具栏/-->
+                        <!--工具栏/-->
 
-                            <!--数据列表-->
-                            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
-                                <thead>
-                                <tr>
-                                    <th class="sorting_asc">书籍编号</th>
-                                    <th class="sorting">书名</th>
-                                    <th class="sorting">出版商</th>
-                                    <th class="sorting">作者</th>
-                                    <th class="sorting">出版日期</th>
-                                    <th class="sorting">封面</th>
-                                    <th class="sorting">简介</th>
-                                    <th class="text-center">类别</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(item) in list">
-                                    <td>{{item.b_id}}</td>
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.publisher}}</td>
-                                    <td>{{item.author}}</td>
-                                    <td>{{item.data}}</td>
-                                    <td>{{item.info}}</td>
-                                    <td>{{item.context}}</td>
-                                    <td>{{item.c_id}}</td>
-                                    <th class="" style="padding-right:0px;">
-                                        <input name="b_id" id="selall" type="checkbox" v-bind:value="item.b_id"
-                                               class="icheckbox_square-blue">
-                                    </th>
-                                </tr>
+                        <!--数据列表-->
+                        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>记录编号</th>
+                                <th>借阅者</th>
+                                <th>借阅书籍</th>
+                                <th>借阅时间</th>
+                                <th>应该归还时间</th>
+                                <th>实际归还时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item) in list">
+                                <td><input v-model="delete_id" v-bind:value="item.l_id" type="checkbox"
+                                           style="zoom: 125%"></td>
+                                <td>{{item.l_id}}</td>
+                                <td>{{item.username}}</td>
+                                <td>{{item.b_name}}</td>
+                                <td>{{item.borrow_date}}</td>
+                                <td>{{item.return_date}}</td>
+                                <td>{{item.rel_date}}</td>
+                                <td>{{item.statue}}</td>
+                                <td>
+                                    <a href="#" @click="delaytime(item.l_id)" class="btn btn-info">延时</a>
+                                    <a href="#" @click="notify(item.id)" class="btn btn-success">提醒归还</a>
+                                </td>
+                            </tr>
 
 
-                                </tbody>
+                            </tbody>
 
-                                <!--
-                        <tfoot>
-                        <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
-                        </tr>
-                        </tfoot>-->
-                            </table>
-                        </form>
+                            <!--
+                    <tfoot>
+                    <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                    </tr>
+                    </tfoot>-->
+                        </table>
                         <!--数据列表/-->
 
                         <!--工具栏-->
@@ -392,15 +397,15 @@
                             1 to {{ max }} of {{ num }} entries
                         </div>
                     </div>
-                    <div v-bind:class="{hidden:j}" class="col-sm-7">
+                    <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
                             <ul class="pagination">
                                 <li v-bind:class="{disabled:!(data.hasPreviousPage)}"
                                     class="paginate_button previous" @click="getPage(data.prePage)">
                                     <a>上一页</a></li>
                                 <li class="paginate_button" v-for="(i) in data.navigatepageNums"
-                                    v-bind:class="{active:(i==data.pageNum)}" @click="getPage(i)"><a>{{ i
-                                    }}</a></li>
+                                    v-bind:class="{active:(i==data.pageNum)}" @click="getPage(i)"><a>{{ i }}</a>
+                                </li>
                                 <li v-bind:class="{disabled:!(data.hasNextPage)}"
                                     class="paginate_button next" @click="getPage(data.nextPage)"><a>下一页</a>
                                 </li>
@@ -433,21 +438,21 @@
     new Vue({
         el: '#app',
         data: {
-            i: 1,
-            max: 1,
-            num: 0,
-            data: {},
-            list: {},
-            j: false,
-            url: '/admin/allBookInfo/'
+            url: "/record/page/",
+            page: 1,
+            max: "",
+            num: "",
+            data: "",
+            list: "",
+            delete_id: []
         },
         mounted: function () {
-            this.getBooks();
+            this.getRecords();
         },
         methods: {
-            getBooks: function () {
+            getRecords: function () {
                 var obj = this;
-                axios.get(obj.url + 1)
+                axios.get(obj.url + obj.page)
                     .then(function (response) {
                         let a = response.data.list;
                         obj.list = a;
@@ -475,6 +480,38 @@
                         });
                 }
             },
+            deleteRecord: function () {
+                var obj = this;
+                //var param = JSON.stringify(obj.delete_id)
+                alert(obj.delete_id);
+                if (confirm('确定要删除吗') != true) {
+
+                } else {
+                    obj.delete_id.forEach(function (item, index) {
+                        axios.get("/record/delete/" + item)
+                    });
+                    alert("删除成功");
+                    axios.get(obj.url + obj.page)
+                        .then(function (response) {
+                            let a = response.data.list;
+                            obj.list = a;
+                            obj.max = response.data.pages;
+                            obj.num = response.data.total;
+                            obj.data = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            },
+            notify: function (u_id) {
+                axios.get("/record/notify/" + u_id);
+                alert("已发送提醒归还邮件");
+            },
+            delaytime: function (l_id) {
+                axios.post("/record/delay", {l_id: l_id});
+                alert("成功延时");
+            }
         }
     });
 </script>

@@ -257,9 +257,8 @@ public class UserController {
     }
 
 
-    @RequestMapping("/test123")
-    @ResponseBody
-    public String test231() {
-        return "fuck";
+    @RequestMapping("/admin/record")
+    public String adminRecord() {
+        return "manage_record";
     }
 }
